@@ -10,23 +10,17 @@
 :root{
   --bg:#fff7fa; --surface:#ffffff; --ink:#3a2335; --muted:#7d6677; --line:#f1dbe5;
   --plum:#a2557f; --plum-2:#b9789a; --gold:#e0b99a; --rose:#fde4ee; --ok:#3f9a74; --btn:#f6c9dc; --lav:#ece0f8; --mint:#dcf1e8;
-  --display:'Cormorant Garamond','Georgia',serif; --body:'Jost','Segoe UI',system-ui,sans-serif;
+  color-scheme:light; --display:'Cormorant Garamond','Georgia',serif; --body:'Jost','Segoe UI',system-ui,sans-serif;
 }
-@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
-  --bg:#1a1017; --surface:#25171f; --ink:#f4e9ef; --muted:#bfa6b4; --line:#3a2632;
-  --plum:#d9a8c4; --plum-2:#c58fb0; --gold:#d9b878; --rose:#3a2230; --ok:#6fcf9f; --btn:#6b3a57; --lav:#34254a; --mint:#1f3a31; color-scheme:dark}}
-:root[data-theme="dark"]{
-  --bg:#1a1017; --surface:#25171f; --ink:#f4e9ef; --muted:#bfa6b4; --line:#3a2632;
-  --plum:#d9a8c4; --plum-2:#c58fb0; --gold:#d9b878; --rose:#3a2230; --ok:#6fcf9f; --btn:#6b3a57; --lav:#34254a; --mint:#1f3a31; color-scheme:dark}
 *{box-sizing:border-box}
-body{background:var(--bg);color:var(--ink);font-family:var(--body);font-size:16px;line-height:1.55;margin:0;
+body{background:linear-gradient(160deg,#fde4ee 0%,#f1e4fa 50%,#e0f3ea 100%) fixed;color:var(--ink);font-family:var(--body);font-size:16px;line-height:1.55;margin:0;
   padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:0 40px}
 .wrap{max-width:860px;margin:0 auto}
 header{padding:32px 0 12px;text-align:center}
 .mark{font-family:var(--display);letter-spacing:.32em;text-transform:uppercase;font-size:.78rem;color:var(--gold);font-weight:600}
 h1{font-family:var(--display);font-size:clamp(2.2rem,7vw,3.4rem);line-height:1.02;margin:6px 0 8px;color:var(--plum);font-weight:600;text-wrap:balance}
 .sub{color:var(--muted);max-width:52ch;margin:0 auto}
-nav{display:flex;gap:6px;flex-wrap:wrap;justify-content:center;margin:22px 0 22px;position:sticky;top:env(safe-area-inset-top,0px);background:var(--bg);padding:8px 0;z-index:5;border-bottom:1px solid var(--line)}
+nav{display:flex;gap:6px;flex-wrap:wrap;justify-content:center;margin:22px 0 22px;position:sticky;top:env(safe-area-inset-top,0px);background:#fdeaf2;padding:8px 0;z-index:5;border-bottom:1px solid var(--line)}
 nav button{font:inherit;font-weight:500;border:1px solid var(--line);background:var(--surface);color:var(--ink);padding:9px 14px;border-radius:999px;cursor:pointer}
 nav button[aria-selected="true"]{background:var(--btn);color:var(--ink);border-color:var(--plum-2)}
 nav button:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,a:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
