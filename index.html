@@ -1,0 +1,318 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Mi Ruta Faceless</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Jost:wght@400;500;600&display=swap">
+<style>
+/* Concepto: app de consulta tipo cuaderno de trabajo; ciruela profunda, champaña y rosa empolvado; una sola tarjeta destacada por pantalla. */
+:root{
+  --bg:#fff7fa; --surface:#ffffff; --ink:#3a2335; --muted:#7d6677; --line:#f1dbe5;
+  --plum:#a2557f; --plum-2:#b9789a; --gold:#e0b99a; --rose:#fde4ee; --ok:#3f9a74; --btn:#f6c9dc; --lav:#ece0f8; --mint:#dcf1e8;
+  --display:'Cormorant Garamond','Georgia',serif; --body:'Jost','Segoe UI',system-ui,sans-serif;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#1a1017; --surface:#25171f; --ink:#f4e9ef; --muted:#bfa6b4; --line:#3a2632;
+  --plum:#d9a8c4; --plum-2:#c58fb0; --gold:#d9b878; --rose:#3a2230; --ok:#6fcf9f; --btn:#6b3a57; --lav:#34254a; --mint:#1f3a31; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#1a1017; --surface:#25171f; --ink:#f4e9ef; --muted:#bfa6b4; --line:#3a2632;
+  --plum:#d9a8c4; --plum-2:#c58fb0; --gold:#d9b878; --rose:#3a2230; --ok:#6fcf9f; --btn:#6b3a57; --lav:#34254a; --mint:#1f3a31; color-scheme:dark}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--body);font-size:16px;line-height:1.55;margin:0;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:0 40px}
+.wrap{max-width:860px;margin:0 auto}
+header{padding:32px 0 12px;text-align:center}
+.mark{font-family:var(--display);letter-spacing:.32em;text-transform:uppercase;font-size:.78rem;color:var(--gold);font-weight:600}
+h1{font-family:var(--display);font-size:clamp(2.2rem,7vw,3.4rem);line-height:1.02;margin:6px 0 8px;color:var(--plum);font-weight:600;text-wrap:balance}
+.sub{color:var(--muted);max-width:52ch;margin:0 auto}
+nav{display:flex;gap:6px;flex-wrap:wrap;justify-content:center;margin:22px 0 22px;position:sticky;top:env(safe-area-inset-top,0px);background:var(--bg);padding:8px 0;z-index:5;border-bottom:1px solid var(--line)}
+nav button{font:inherit;font-weight:500;border:1px solid var(--line);background:var(--surface);color:var(--ink);padding:9px 14px;border-radius:999px;cursor:pointer}
+nav button[aria-selected="true"]{background:var(--btn);color:var(--ink);border-color:var(--plum-2)}
+nav button:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,a:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
+section{display:none}
+section.on{display:block}
+h2{font-family:var(--display);font-size:1.9rem;margin:0 0 4px;color:var(--plum);font-weight:600}
+.lead{color:var(--muted);margin:0 0 18px}
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:18px;margin-bottom:16px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px}
+label{display:block;font-size:.82rem;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin-bottom:4px;font-weight:500}
+input,select{width:100%;font:inherit;padding:11px 12px;border:1px solid var(--line);border-radius:10px;background:var(--bg);color:var(--ink);min-width:0}
+.btn{font:inherit;font-weight:600;background:var(--btn);color:var(--ink);border:0;padding:12px 20px;border-radius:10px;cursor:pointer}
+.btn.ghost{background:var(--lav);color:var(--ink);border:1px solid var(--line)}
+.row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.bar{height:8px;background:var(--line);border-radius:99px;overflow:hidden}
+.bar i{display:block;height:100%;background:var(--gold);width:0;transition:width .3s}
+.day{display:grid;grid-template-columns:auto 1fr;gap:12px;padding:12px 0;border-top:1px solid var(--line);align-items:start}
+.day:first-child{border-top:0}
+.day input[type=checkbox]{width:22px;height:22px;margin-top:3px;accent-color:var(--plum)}
+.tag{display:inline-block;font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;padding:2px 9px;border-radius:99px;background:var(--rose);color:var(--plum);font-weight:600;margin-left:6px}
+.dn{font-family:var(--display);font-weight:700;color:var(--gold)}
+.day.done .txt{color:var(--muted);text-decoration:line-through}
+ul.hooks{list-style:none;margin:0;padding:0}
+ul.hooks li{display:flex;gap:10px;justify-content:space-between;align-items:flex-start;padding:11px 0;border-top:1px solid var(--line)}
+ul.hooks li:first-child{border-top:0}
+.cp{font:inherit;font-size:.82rem;border:1px solid var(--line);background:transparent;color:var(--plum);border-radius:8px;padding:5px 10px;cursor:pointer;flex:none}
+details{border-top:1px solid var(--line);padding:12px 0}
+details:first-of-type{border-top:0}
+summary{cursor:pointer;font-weight:500;list-style:none;display:flex;justify-content:space-between;gap:10px}
+summary::after{content:"+";color:var(--gold);font-size:1.3rem;line-height:1}
+details[open] summary::after{content:"\2013"}
+details p{margin:8px 0 0;color:var(--muted)}
+.g{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:12px}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:14px;display:flex;flex-direction:column;gap:6px;min-width:0}
+.card b{font-family:var(--display);font-size:1.2rem;color:var(--plum);line-height:1.15}
+.card a{color:var(--plum);font-weight:600;word-break:break-all;font-size:.9rem}
+.card small{color:var(--muted)}
+.big{font-family:var(--display);font-size:2.6rem;color:var(--plum);font-weight:700;line-height:1}
+.note{font-size:.85rem;color:var(--muted)}
+footer{text-align:center;margin-top:34px;padding-top:18px;border-top:1px solid var(--line);color:var(--muted);font-size:.9rem}
+footer b{color:var(--plum);font-family:var(--display);font-size:1.15rem}
+.toast{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(20px + env(safe-area-inset-bottom,0px));background:var(--btn);color:var(--ink);padding:9px 16px;border-radius:99px;font-size:.9rem}
+@media (prefers-reduced-motion:reduce){.bar i{transition:none}}
+</style>
+</head>
+<body>
+
+<div class="wrap">
+<header>
+  <div class="mark">Yesica Rojas</div>
+  <h1>Mi Ruta Faceless</h1>
+  <p class="sub">Arma tu plan de 30 días, crea ganchos, resuelve dudas y calcula tus ventas. Todo en un solo lugar y sin mostrar tu rostro.</p>
+</header>
+
+<nav role="tablist" aria-label="Secciones">
+  <button role="tab" id="t-plan" aria-selected="true" data-t="plan">Mi plan</button>
+  <button role="tab" id="t-ganchos" aria-selected="false" data-t="ganchos">Ganchos</button>
+  <button role="tab" id="t-dudas" aria-selected="false" data-t="dudas">Consultas</button>
+  <button role="tab" id="t-calc" aria-selected="false" data-t="calc">Calculadora</button>
+  <button role="tab" id="t-guias" aria-selected="false" data-t="guias">Guías</button>
+</nav>
+
+<section id="plan" class="on">
+  <h2>Tu plan de 30 días</h2>
+  <p class="lead">Cuéntame tu punto de partida y te armo un calendario de contenido con una tarea por día.</p>
+  <div class="panel">
+    <div class="grid">
+      <div><label for="nicho">Tu nicho</label>
+        <select id="nicho"><option>Maternidad y crianza</option><option>Finanzas personales</option><option>Bienestar y hábitos</option><option>Belleza y cuidado</option><option>Emprendimiento</option><option>Fe y desarrollo personal</option><option>Cocina y hogar</option><option>Otro (el tuyo)</option></select></div>
+      <div><label for="otro">Si elegiste “Otro”, escríbelo</label><input id="otro" type="text" placeholder="ej. jardinería"></div>
+      <div><label for="plat">Plataforma principal</label>
+        <select id="plat"><option value="ig">Instagram (reels)</option><option value="tt">TikTok</option><option value="pin">Pinterest</option></select></div>
+      <div><label for="min">Tiempo por día</label>
+        <select id="min"><option value="20">20 minutos</option><option value="40" selected>40 minutos</option><option value="60">1 hora</option></select></div>
+    </div>
+    <div class="row" style="margin-top:14px"><button class="btn" id="gen">Crear mi plan</button><button class="btn ghost" id="reset">Borrar mi plan</button></div>
+  </div>
+  <div id="planOut" hidden>
+    <div class="panel">
+      <div class="row" style="justify-content:space-between"><b id="prog">0 de 30 días</b><span class="note" id="planFor"></span></div>
+      <div class="bar" style="margin-top:8px"><i id="barfill"></i></div>
+    </div>
+    <div class="panel" id="days"></div>
+  </div>
+</section>
+
+<section id="ganchos">
+  <h2>Generador de ganchos</h2>
+  <p class="lead">Escribe tu tema y obtén frases para abrir tus videos. Toca “Copiar” y úsalas.</p>
+  <div class="panel">
+    <label for="tema">Tu tema</label>
+    <div class="row"><input id="tema" type="text" placeholder="ej. ahorrar sin dejar de disfrutar" style="flex:1 1 220px"><button class="btn" id="mk">Crear ganchos</button></div>
+  </div>
+  <div class="panel"><ul class="hooks" id="hl"></ul></div>
+  <h2 style="font-size:1.5rem">Cierres (CTA) que funcionan</h2>
+  <div class="panel"><ul class="hooks" id="cta"></ul></div>
+</section>
+
+<section id="dudas">
+  <h2>Consultas rápidas</h2>
+  <p class="lead">Respuestas cortas a lo que más se pregunta. Busca por palabra.</p>
+  <div class="panel"><label for="q">Buscar</label><input id="q" type="text" placeholder="ej. algoritmo, email, nicho"></div>
+  <div class="panel" id="faq"></div>
+</section>
+
+<section id="calc">
+  <h2>¿Cuánto puedo ganar?</h2>
+  <p class="lead">Un cálculo sencillo para estimar tus ventas. Cambia los números y míralo al instante. Son cifras de ejemplo, no una promesa.</p>
+  <div class="panel"><div class="grid">
+    <div><label for="v">Personas que ven tu contenido al mes</label><input id="v" type="number" min="0" value="20000"></div>
+    <div><label for="c">% que toca tu enlace</label><input id="c" type="number" min="0" step="0.1" value="2"></div>
+    <div><label for="b">% que compra</label><input id="b" type="number" min="0" step="0.1" value="3"></div>
+    <div><label for="p">Precio de tu producto (COP)</label><input id="p" type="number" min="0" value="47000"></div>
+  </div></div>
+  <div class="panel"><div class="grid">
+    <div><div class="note">Visitas a tu enlace</div><div class="big" id="r1">0</div></div>
+    <div><div class="note">Ventas al mes</div><div class="big" id="r2">0</div></div>
+    <div><div class="note">Ingreso estimado</div><div class="big" id="r3">0</div></div>
+  </div><p class="note" style="margin:12px 0 0" id="tip"></p></div>
+</section>
+
+<section id="guias">
+  <h2>Tu biblioteca de guías</h2>
+  <p class="lead">Las 22 guías del Mega Pack, con su enlace. Filtra por tema.</p>
+  <div class="panel"><label for="gq">Filtrar</label><input id="gq" type="text" placeholder="ej. reels, pinterest, email"></div>
+  <div class="g" id="gl"></div>
+</section>
+
+<footer>
+  <b>Yesica Rojas</b><br>
+  @yesicarojas26 · 2026<br>
+  <span class="note">Dato de referencia: Instagram supera los 3.000 millones de usuarios activos al mes (Meta, 2025).</span>
+</footer>
+</div>
+<div class="toast" id="toast" hidden></div>
+
+<script>
+const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
+const KEY='mrf-plan-v1';
+function load(){try{return JSON.parse(localStorage.getItem(KEY)||'null')}catch(e){return null}}
+function save(o){try{localStorage.setItem(KEY,JSON.stringify(o))}catch(e){}}
+function toast(t){const e=$('#toast');e.textContent=t;e.hidden=false;clearTimeout(toast.h);toast.h=setTimeout(()=>e.hidden=true,1800)}
+function copy(t){const done=()=>toast('Copiado');
+  if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(t).then(done,()=>fb(t,done))}else fb(t,done)}
+function fb(t,done){const a=document.createElement('textarea');a.value=t;document.body.appendChild(a);a.select();try{document.execCommand('copy');done()}catch(e){toast('Selecciona y copia')}a.remove()}
+
+/* Pestañas */
+$$('nav button').forEach(b=>b.onclick=()=>{
+  $$('nav button').forEach(x=>x.setAttribute('aria-selected',x===b));
+  $$('section').forEach(s=>s.classList.toggle('on',s.id===b.dataset.t));
+  scrollTo({top:0})});
+
+/* Plan de 30 días */
+const FORMATO={ig:'reel sin rostro',tt:'video con voz en off',pin:'pin con imagen vertical'};
+const CICLO=[
+ ['Educar',n=>`Publica un ${n.f} con 3 consejos rápidos sobre ${n.n}. Usa un gancho de pregunta en los primeros 2 segundos.`],
+ ['Mostrar',n=>`Muestra un paso a paso de ${n.n} con clips de apoyo y texto en pantalla. Termina con un cierre claro.`],
+ ['Conectar',n=>`Cuenta un error común en ${n.n} y qué harías distinto. Invita a comentar su experiencia.`],
+ ['Educar',n=>`Haz una lista de 5 herramientas o ideas de ${n.n}. Guarda el ${n.f} en una colección con nombre.`],
+ ['Vender',n=>`Presenta tu guía o producto como la solución a un problema real de ${n.n}. Deja el enlace en tu perfil.`],
+ ['Entretener',n=>`Publica un mito contra verdad de ${n.n} con tendencia de audio del momento.`],
+ ['Revisar',n=>`Mira tus números de la semana: qué contenido tuvo más guardados y compartidos. Repite el mejor con otro gancho.`]
+];
+function build(){
+  const nicho=$('#nicho').value==='Otro (el tuyo)'?($('#otro').value.trim()||'tu tema'):$('#nicho').value.toLowerCase();
+  const plat=$('#plat').value;
+  const o={nicho,plat,min:+$('#min').value,done:[]};
+  save(o);render(o);
+}
+function render(o){
+  $('#planOut').hidden=false;
+  $('#planFor').textContent=`${o.nicho} · ${$('#plat').selectedOptions[0]?$('#plat').selectedOptions[0].textContent:''} · ${o.min} min al día`;
+  const box=$('#days');box.textContent='';
+  for(let i=0;i<30;i++){
+    const [tag,fn]=CICLO[i%7];
+    const txt=fn({n:o.nicho,f:FORMATO[o.plat]});
+    const d=document.createElement('div');d.className='day'+(o.done.includes(i)?' done':'');
+    const cb=document.createElement('input');cb.type='checkbox';cb.id='d'+i;cb.checked=o.done.includes(i);
+    cb.setAttribute('aria-label','Día '+(i+1)+' completado');
+    cb.onchange=()=>{const s=load();if(!s)return;s.done=s.done.filter(x=>x!==i);if(cb.checked)s.done.push(i);save(s);d.classList.toggle('done',cb.checked);prog(s)};
+    const w=document.createElement('div');
+    const h=document.createElement('div');
+    const dn=document.createElement('span');dn.className='dn';dn.textContent='Día '+(i+1);
+    const tg=document.createElement('span');tg.className='tag';tg.textContent=tag;
+    h.append(dn,tg);
+    const p=document.createElement('div');p.className='txt';p.textContent=txt;
+    w.append(h,p);d.append(cb,w);box.append(d);
+  }
+  prog(o);
+}
+function prog(o){const n=o.done.length;$('#prog').textContent=n+' de 30 días';$('#barfill').style.width=(n/30*100)+'%'}
+$('#gen').onclick=build;
+$('#reset').onclick=()=>{try{localStorage.removeItem(KEY)}catch(e){}$('#planOut').hidden=true;toast('Plan borrado')};
+const saved=load();if(saved){render(saved)}
+
+/* Ganchos */
+const PLANTILLAS=[
+ 'Lo que nadie te dice sobre {t}',
+ '3 errores que cometes con {t} sin darte cuenta',
+ 'Si estás empezando con {t}, mira esto antes de seguir',
+ 'Dejé de hacer esto con {t} y todo cambió',
+ 'El paso de {t} que casi todas se saltan',
+ 'Cómo empezar con {t} sin gastar de más',
+ '¿Y si todo lo que te contaron sobre {t} está al revés?',
+ 'Lo que haría si tuviera que empezar de cero con {t}',
+ 'Guarda este video si quieres avanzar con {t}',
+ '5 ideas de {t} que puedes hacer hoy mismo',
+ 'Por qué {t} no te está funcionando todavía',
+ 'La forma más simple de empezar con {t} esta semana',
+ 'Esto me hubiera gustado saber antes de empezar con {t}',
+ 'Mito contra verdad: {t}',
+ 'En 30 segundos te explico {t}'
+];
+const CTAS=['Guarda este video para tenerlo a la mano','Compártelo con alguien que lo necesite','Escribe “QUIERO” en los comentarios y te envío la guía','Sígueme para ver la parte 2','Toca el enlace de mi perfil para descargar la guía','Cuéntame en comentarios cuál es tu mayor duda','Activa las notificaciones para no perderte el siguiente','Responde esta historia y te cuento cómo empezar','Descarga la guía gratis desde mi perfil','Comenta cuál tema quieres que explique después'];
+function list(el,arr){el.textContent='';arr.forEach(t=>{const li=document.createElement('li');const s=document.createElement('span');s.textContent=t;const b=document.createElement('button');b.className='cp';b.textContent='Copiar';b.onclick=()=>copy(t);li.append(s,b);el.append(li)})}
+function hooks(){const t=($('#tema').value.trim()||'tu tema');list($('#hl'),PLANTILLAS.map(p=>p.replace('{t}',t)))}
+$('#mk').onclick=hooks;$('#tema').addEventListener('keydown',e=>{if(e.key==='Enter')hooks()});
+hooks();list($('#cta'),CTAS);
+
+/* Consultas */
+const FAQ=[
+ ['¿Cómo elijo mi nicho?','Elige un tema que conozcas, que te guste y donde la gente ya gaste dinero o tiempo. Empieza angosto: “finanzas para mamás” rinde más que “finanzas”. Guía: Identifica tu nicho.','nicho'],
+ ['¿Puedo ganar dinero sin mostrar mi rostro?','Sí. Usa voz en off, texto en pantalla, clips de apoyo y plantillas. Lo importante es que tu mensaje sea claro y constante. Guías: Faceless Mastery y Guía Faceless.','rostro'],
+ ['¿Cuántas veces debo publicar?','Mejor constante que mucho. Entre 4 y 5 publicaciones por semana, con un día para revisar tus números. Guía: Qué publicar, 90 días de contenido.','publicar frecuencia'],
+ ['¿Cómo funciona el algoritmo?','Premia lo que la gente ve completo, guarda, comparte y comenta. Un buen gancho y un contenido útil pesan más que usar muchas etiquetas. Guía: Hackea el algoritmo.','algoritmo alcance'],
+ ['¿Cómo hago un buen gancho?','Una frase en los primeros 2 segundos que prometa algo concreto: una lista, un error o un resultado. Prueba el generador de ganchos de esta app.','gancho hook'],
+ ['¿Qué hago para tener más interacción?','Haz preguntas, responde cada comentario y pide guardar o compartir al final. Revisa qué publicaciones se guardan más y repítelas. Guía: Aumenta tu engagement.','engagement interacción comentarios'],
+ ['¿Sirve el email marketing?','Sí. Una lista de correos es tuya y no depende de una red social. Ofrece una guía gratis a cambio del correo y escribe una vez por semana. Guía: Estrategia de email marketing.','email correo lista'],
+ ['¿Y Pinterest?','Funciona como buscador: un pin vertical con título claro puede traer visitas durante meses. Guía: Guía para crecer en Pinterest.','pinterest pin'],
+ ['¿Cómo vendo sin parecer insistente?','Reparte tu contenido así: educar, mostrar, conectar y solo después vender. Una de cada cinco publicaciones puede invitar a tu producto.','vender venta'],
+ ['¿Qué producto digital puedo crear?','Una guía en PDF, una plantilla, un mini curso o un planificador. Empieza con algo pequeño que resuelva un solo problema. Guía: 25 ideas de productos digitales.','producto digital ebook'],
+ ['¿Necesito pagar anuncios?','No para empezar. Con contenido útil y constante puedes crecer de forma orgánica. Los anuncios sirven después, para acelerar algo que ya funciona.','anuncios publicidad pagar'],
+ ['¿Qué uso para diseñar?','Canva alcanza para empezar: portadas, plantillas, carruseles y guías. Guía: Empezando con Canva.','canva diseño'],
+ ['¿Cuánto tarda en dar resultados?','Depende de tu constancia y tu oferta. Mide en bloques de 30 días: guardados, visitas al enlace y mensajes. Ajusta lo que no funciona.','tiempo resultados'],
+ ['¿Qué hago si no tengo seguidores?','Empieza igual. El contenido guardado y compartido llega a personas nuevas aunque tengas pocos seguidores. Guía: Cómo viralizar tus reels con una cuenta pequeña.','seguidores cuenta pequeña']
+];
+function faq(){const q=$('#q').value.trim().toLowerCase();const box=$('#faq');box.textContent='';
+  const r=FAQ.filter(f=>!q||(f[0]+' '+f[1]+' '+f[2]).toLowerCase().includes(q));
+  if(!r.length){const p=document.createElement('p');p.className='note';p.textContent='No encontré esa palabra. Prueba con otra, por ejemplo “reels” o “email”.';box.append(p);return}
+  r.forEach(f=>{const d=document.createElement('details');const s=document.createElement('summary');s.textContent=f[0];const p=document.createElement('p');p.textContent=f[1];d.append(s,p);box.append(d)})}
+$('#q').oninput=faq;faq();
+
+/* Calculadora */
+const fmt=n=>Math.round(n).toLocaleString('es-CO');
+function calc(){const v=+$('#v').value||0,c=+$('#c').value||0,b=+$('#b').value||0,p=+$('#p').value||0;
+  const vis=v*c/100,ven=vis*b/100,ing=ven*p;
+  $('#r1').textContent=fmt(vis);$('#r2').textContent=ven<10?(Math.round(ven*10)/10).toLocaleString('es-CO'):fmt(ven);$('#r3').textContent='$'+fmt(ing);
+  $('#tip').textContent=ven<1?'Para vender más, sube primero las visitas a tu enlace: mejora tu gancho y tu cierre.':'Mejorar un solo número, como el cierre de tus videos, ya cambia el resultado del mes.'}
+['v','c','b','p'].forEach(i=>$('#'+i).addEventListener('input',calc));calc();
+
+/* Guías */
+const G=[
+['Guía principal Faceless Mastery','59qfo3szxxm6b5m','rostro ganar dinero'],
+['Marketing digital para tu negocio','k74e2kzn72zeasx','marketing negocio'],
+['Creación de contenido de valor','w6rnphk4lqahvzg','contenido'],
+['Estrategia de email marketing','ivngn1901fd96c7','email correo'],
+['Crece en Instagram y monetiza','c42isv39pjjow0f','instagram monetizar'],
+['Hackea el algoritmo','1toazozhow6poj7','algoritmo'],
+['25 ideas de productos digitales','g2bvn2smv61g4bz','productos digitales'],
+['Identifica tu nicho','w4wqougp2v00lpg','nicho'],
+['Guía para crecer en Pinterest','xbba3ge53q4f70w','pinterest'],
+['Guía para dominar los reels','47t6da3usa3hidx','reels'],
+['Gana dinero con tu pasión','cq75tgwtr3y2p17','pasión'],
+['Aumenta tu engagement','ildwhsmhgvynnrh','engagement'],
+['Guía de preparación','lbxkoj2pfvq9bkj','preparación'],
+['Faceless digital marketing','v8dyfz558q31q6y','faceless'],
+['Guía faceless','unm7dd6loeajt7x','faceless'],
+['Planificador para tus redes sociales','2quavt0qlap7le6','planificador redes'],
+['Guía de reels exitosos','3c4syfgm3l9w0e8','reels'],
+['Guía de reels sin rostro','9z0y3gmi2imhomu','reels rostro'],
+['Qué publicar: 90 días de contenido, 101 ganchos y 100 CTA','btjvbyc7roawg69','publicar ganchos cta'],
+['TikTok marketing sin rostro','fatiig9aux3k7v3','tiktok'],
+['Empezando con Canva','tm89skdgfgtivmt','canva diseño'],
+['Guía marketing digital 101','ggs19jq9zgav7gc','marketing básico'],
+['Bono: De visto a viral, ganchos y captions','r285oyzax1dza1t','bono ganchos captions'],
+['Bono: 20 plantillas para historias','hipsfm2kvyteh0j','bono historias plantillas']
+];
+function guias(){const q=$('#gq').value.trim().toLowerCase();const box=$('#gl');box.textContent='';
+  G.map((g,i)=>[g,i]).filter(([g])=>!q||(g[0]+' '+g[2]).toLowerCase().includes(q)).forEach(([g,i])=>{
+    const c=document.createElement('div');c.className='card';
+    const t=document.createElement('b');t.textContent=g[0];
+    const s=document.createElement('small');s.textContent=i<22?'Guía '+(i+1):'Bono';
+    const a=document.createElement('a');a.href='https://canva.link/'+g[1];a.target='_blank';a.rel='noopener';a.textContent='Abrir guía';
+    c.append(s,t,a);box.append(c)})}
+$('#gq').oninput=guias;guias();
+</script>
+
+</body>
+</html>
